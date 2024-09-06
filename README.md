@@ -268,3 +268,12 @@ location / {
 ```
 
 - Restart containers
+
+## TLDR
+- `docker network create mynetwork --gateway 172.20.0.1 --subnet 172.20.0.0/16`
+- `RADARR_STATIC_CONTAINER_IP=172.20.0.10 SONARR_STATIC_CONTAINER_IP=172.20.0.11 docker compose --profile vpn up -d`
+- `docker compose -f docker-compose-nginx.yml up -d`
+
+iptables -t nat -A PREROUTING -i eth0 -p tcp -d 10.0.0.4 --dport 6881 -j DNAT --to-dest 10.27.101.3:6881
+root@wireguard:~# iptables -A FORWARD -p tcp -d 10.27.101.3 --dport 6881 -j ACCEPT
+root@wireguard:~# iptables -t nat -A POSTROUTING -p tcp -s 10.27.101.3 --dport 6881 -j SNAT --to 10.0.0.4:6881
