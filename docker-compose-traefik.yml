@@ -1,9 +1,8 @@
 services:
   traefik:
-    image: traefik:v2.10.4
+    image: traefik:v2.11.8
     container_name: traefik
     command:
-
       - --api.dashboard=true
       - --providers.docker=true
       - --accesslog=true
